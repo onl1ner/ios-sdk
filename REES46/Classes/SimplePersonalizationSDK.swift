@@ -170,7 +170,7 @@ class SimplePersonalizationSDK: PersonalizationSDK {
         }
     }
 
-    func setProfileData(userEmail: String, userPhone: String?, userLoyaltyId: String?, birthday: Date?, age: Int?, firstName: String?, lastName: String?, location: String?, gender: Gender?, fbID: String?, vkID: String?, telegramID: String?, loyaltyCardLocation: String?, loyaltyStatus: String?, loyaltyBonuses: Int?, loyaltyBonusesToNextLevel: Int?, boughtSomething: Bool?, customProperties: [String: String?]?, completion: @escaping (Result<Void, SDKError>) -> Void) {
+    func setProfileData(userEmail: String, userPhone: String?, userLoyaltyId: String?, userId: String?, birthday: Date?, age: Int?, firstName: String?, lastName: String?, location: String?, gender: Gender?, fbID: String?, vkID: String?, telegramID: String?, loyaltyCardLocation: String?, loyaltyStatus: String?, loyaltyBonuses: Int?, loyaltyBonusesToNextLevel: Int?, boughtSomething: Bool?, customProperties: [String: String?]?, completion: @escaping (Result<Void, SDKError>) -> Void) {
         mySerialQueue.async {
             let path = "profile/set"
             var paramsTemp: [String: String?] = [
@@ -178,25 +178,19 @@ class SimplePersonalizationSDK: PersonalizationSDK {
                 "did": self.deviceID,
                 "seance": self.userSeance,
                 "loyalty_id": userLoyaltyId,
+                "id": userId,
                 "fb_id": fbID,
                 "vk_id": vkID,
                 "telegram_id": telegramID,
                 "loyalty_card_location": loyaltyCardLocation,
                 "loyalty_status": loyaltyStatus,
+                "gender": gender?.rawValue,
                 "email": userEmail,
                 "first_name": firstName,
                 "last_name": lastName,
                 "phone": userPhone,
-                "loyality_id": userLoyaltyId,
                 "location": location
             ]
-            
-            if gender == .male {
-                paramsTemp["gender"] = "m"
-            }
-            if gender == .female {
-                paramsTemp["gender"] = "f"
-            }
             
             if let birthday = birthday {
                 let dateFormatter = DateFormatter()
